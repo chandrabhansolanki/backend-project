@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const {Schema} = mongoose
 
 const CountrySchema = new Schema({
-    region:{type: String},
+    region:{type: String,unique: true,},
     regionCode: {type: String},
     countries: [
         {
