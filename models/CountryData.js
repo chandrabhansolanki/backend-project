@@ -6,10 +6,10 @@ const CountrySchema = new Schema({
     regionCode: {type: String},
     countries: [
         {
-            name: {type: String},
-            code:{type:String},
-            flag:{type:String},
-            alpha_3_code:{type:String}
+            name: {type: String, unique:true},
+            code:{type:String, unique:true },
+            flag:{type:String, unique:true },
+            alpha_3_code:{type:String, unique:true }
         }
     ],
     organization: {type:String},

@@ -3,62 +3,45 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  // obj = {
-  //     region : "AMERICAS",
-  // regionCode : "AMERICAS",
-  // countries : [
-  //     {
-  //         name : "Canada",
-  //         code : "CA",
-  //         flag : "https://console-skyview-dev.s3.amazonaws.com/console-master/flags/ca.svg",
-  //         alpha_3_code : "CAN"
-  //     }
-  // ]
-  // }
-  // console.log(req.body);
   try {
-    const countryInfo = await Country.findOne(
-      { region: req.body.region }
-
-      // {$pull: {
-      //         countries: {
-      //            _id:"6379dd4231ff6cf0abc666b2"
-      //         },
-      //     }
-      // }
+    const countryInfo = await Country.updateMany(
+      {
+         region: req.body.region ,
+        // "countries.name":"Canada"
+     },
+      {$pull: {
+              countries: {
+                 _id:"637de5618bfed6a65fd058b8",
+              },
+          }
+      }
     );
-    let newcountries = {}
-    // console.log(countryInfo.countries[0].name);
-    if (countryInfo) {
+
 console.log(countryInfo);
-//       for(let i=0; i<body.countries.length; i++){
-// newcountries.push(body.countries[i]);
-//       }
-      // console.log(newcountries);
-      await Country.updateOne(
-        { _id: countryInfo._id },
-        {
-          $push: {
-            countries: req.body.countries
-          },
-        }
-      );
-      // {
-      //     $push: {
-      //         countries : {
-      //             "name" : "United States",
-      //             "code" : "US",
-      //             "flag" : "https://console-skyview-dev.s3.amazonaws.com/console-master/flags/us.svg",
-      //             "alpha_3_code" : "USA"
-      //         }
-      //     }
+    if (countryInfo) {
+      // for(let i=0; i<body.countries.length; i++){
+      //    newcountries.push(body.countries[i]);
       // }
+
+  await Country.updateOne(
+    { _id: countryInfo._id },
+    {$pull: {
+              countries: {
+                //  _id:"637de5618bfed6a65fd058b9",
+              },
+          }
+      }
+      // {
+      //   $push: {
+      //     countries: req.body.countries
+      //   },
+      // }
+  );
     } else if (!countryInfo) {
       await Country.create({
         region: req.body.region,
         regionCode: req.body.regionCode,
         countries: req.body.countries,
-           
         organization: req.body.organization,
         createdBy: req.body.createdBy,
         updatedBy: req.body.updatedBy,
