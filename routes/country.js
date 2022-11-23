@@ -30,29 +30,19 @@ router.get("/", async (req, res) => {
     let newcountries = {}
     // console.log(countryInfo.countries[0].name);
     if (countryInfo) {
-      let data = req.body.countries.map((item) => ({
-        name: item?.name,
-        code: item?.code,
-        flag: item?.flag,
-        alpha_3_code: item?.alpha_3_code,
-      }));
-
-      var body = req.body
-      console.log(data[0].name);
+console.log(countryInfo);
+//       for(let i=0; i<body.countries.length; i++){
+// newcountries.push(body.countries[i]);
+//       }
+      // console.log(newcountries);
       await Country.updateOne(
         { _id: countryInfo._id },
         {
           $push: {
-            countries: {
-                "name" : body,
-            "code" : "EC",
-            "flag" : "https://console-skyview-dev.s3.amazonaws.com/console-master/flags/ec.svg",
-            "alpha_3_code" : "ECU"
-            },
+            countries: req.body.countries
           },
         }
       );
-     
       // {
       //     $push: {
       //         countries : {
